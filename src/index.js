@@ -13,7 +13,6 @@ import AddCategories from './pages/AddCategories';
 import ManageCategories from './pages/ManageCategories';
 import AddSubCategories from './pages/AddSubCategories';
 import ManageSubCategories from './pages/ManageSubCategories';
-import ManageUsers from './pages/ManageUsers';
 import ManageOrders from './pages/ManageOrders';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -48,7 +47,6 @@ root.render(
             <Route path="/managecategories" element={<ManageCategories />} />
             <Route path="/addsubcategories" element={<AddSubCategories />} />
             <Route path="/managesubcategories" element={<ManageSubCategories />} />
-            <Route path="/manageusers" element={<ManageUsers />} />
             <Route path="/manageorders" element={<ManageOrders />} />
           </Routes>
         </div>
@@ -80,9 +78,6 @@ root.render(
                   </li>
                 </ul>
               </div>
-            </li>
-            <li>
-              <NavLink to='/manageusers' className='text-lg mt-1'>Manage Users</NavLink>
             </li>
             <li>
               <NavLink to='/manageorders' className='text-lg mt-1'>Manage Orders</NavLink>
