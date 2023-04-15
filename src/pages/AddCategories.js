@@ -1,10 +1,12 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const AddCategories = () => {
   const [thumbnail, setThumbnail] = useState({});
   const [img, setImg] = useState({});
+  // const [id,setid]
+  const [categoryId, setcategoryId] = useState(0);
   const {
     register,
     handleSubmit,
@@ -14,7 +16,8 @@ const AddCategories = () => {
     mode: "onChange",
     defaultValues: {
       title: "",
-      thumbnail: [],
+      thumbnail: "",
+   
     },
   });
   console.log(thumbnail);
@@ -42,10 +45,18 @@ const AddCategories = () => {
       });
     console.log(imageData);
   };
+  useEffect(() => {
+    fetch("https://kormocharidb-production.up.railway.app/categories")
+      .then((res) => res.json())
+      .then((data) => console.log(data.map((dt)=>setcategoryId(dt.category_id))));
+  }, []);
+
 
   const onSubmit = (data) => {
+    data.category_id = categoryId + 1;
+    setcategoryId(data.category_id);
     data.thumbnail = thumbnail;
-    fetch("https://kormochariapi.vercel.app/categories", {
+    fetch("https://kormocharidb-production.up.railway.app/categories", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(data),

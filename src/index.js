@@ -14,6 +14,10 @@ import ManageCategories from './pages/ManageCategories';
 import AddSubCategories from './pages/AddSubCategories';
 import ManageSubCategories from './pages/ManageSubCategories';
 import ManageOrders from './pages/ManageOrders';
+import Add_Second_Sub from './pages/Add_Second_Sub';
+import ManageSecondSub from './pages/ManageSecondSub';
+import AddFinalSubCategories from './pages/AddFinalSubCategories';
+import ManageFinalSubCategories from './pages/ManageFinalSubCategories';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -47,6 +51,10 @@ root.render(
             <Route path="/managecategories" element={<ManageCategories />} />
             <Route path="/addsubcategories" element={<AddSubCategories />} />
             <Route path="/managesubcategories" element={<ManageSubCategories />} />
+            <Route path="/add_second_sub" element={<Add_Second_Sub />} />
+            <Route path="/manage_second_sub" element={<ManageSecondSub />} />
+            <Route path="/add_final_sub_category" element={<AddFinalSubCategories />} />
+            <Route path="/manage_final_sub" element={<ManageFinalSubCategories />} />
             <Route path="/manageorders" element={<ManageOrders />} />
           </Routes>
         </div>
@@ -75,6 +83,18 @@ root.render(
                   </li>
                   <li>
                     <NavLink to='/managesubcategories' className='text-lg mt-1'>Manage Sub Categories</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to='/add_second_sub' className='text-lg mt-1'>Add Second Sub Categories</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to='/manage_second_sub' className='text-lg mt-1'>Manage Second Sub Categories</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to='/add_final_sub_category' className='text-lg mt-1'>Add Final Sub Categories</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to='/manage_final_sub' className='text-lg mt-1'>Manage Final Sub Categories</NavLink>
                   </li>
                 </ul>
               </div>

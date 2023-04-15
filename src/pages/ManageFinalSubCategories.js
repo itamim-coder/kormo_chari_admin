@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 
-const ManageSubCategories = () => {
-  const [subcategories, setsubCategories] = useState([]);
+const ManageFinalSubCategories = () => {
+  const [finalsubcategories, setfinalsubCategories] = useState([]);
   const [control, setControl] = useState(false);
 
   useEffect(() => {
-    fetch("https://kormocharidb-production.up.railway.app/subcategories")
+    fetch("https://kormocharidb-production.up.railway.app/finalsubcategories")
       .then((res) => res.json())
-      .then((data) => setsubCategories(data));
+      .then((data) => setfinalsubCategories(data));
   }, [control]);
 
    const handleDelete = (id) => {
     alert("are you sure?");
-    fetch(`https://kormocharidb-production.up.railway.app/deletesubcategories/${id}`, {
+    fetch(`https://kormocharidb-production.up.railway.app/deletefinalsubcategories/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -27,7 +27,7 @@ const ManageSubCategories = () => {
     <>
       <div className="container mx-auto p-4">
         <h1 className="text-3xl text-primary font-bold mb-6">
-          Manage <span className="text-secondary">Sub Categories</span>
+          Manage Final<span className="text-secondary">Sub Categories</span>
         </h1>
         <div className="overflow-x-auto">
           <table className="table w-full">
@@ -42,12 +42,12 @@ const ManageSubCategories = () => {
               </tr>
             </thead>
             <tbody>
-              {subcategories.map((subcategory, index) => {
+              {finalsubcategories.map((subcategory, index) => {
                 return (
                   <>
                     <tr>
                       <th>{index + 1}</th>
-                      <td>{subcategory.sub_category_title}</td>
+                      <td>{subcategory.final_sub_category_title}</td>
                       <td>Quality Control Specialist</td>
                       <td>{subcategory.category}</td>
                       <td>
@@ -129,5 +129,5 @@ const ManageSubCategories = () => {
   );
 };
 
-export default ManageSubCategories;
+export default ManageFinalSubCategories;
 

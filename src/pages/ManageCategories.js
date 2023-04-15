@@ -5,14 +5,14 @@ const ManageCategories = () => {
   const [control, setControl] = useState(false);
 
   useEffect(() => {
-    fetch("https://kormochariapi.vercel.app/categories")
+    fetch("https://kormocharidb-production.up.railway.app/categories")
       .then((res) => res.json())
       .then((data) => setCategories(data));
   }, [control]);
 
   const handleDelete = (id) => {
     alert("are you sure?");
-    fetch(`https://kormochariapi.vercel.app/deletecategory/${id}`, {
+    fetch(`https://kormocharidb-production.up.railway.app/deletecategory/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

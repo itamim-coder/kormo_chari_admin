@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 
-const ManageSubCategories = () => {
-  const [subcategories, setsubCategories] = useState([]);
+const ManageSecondSub = () => {
+  const [second_sub_categories, setsecond_sub_categories] = useState([]);
   const [control, setControl] = useState(false);
 
   useEffect(() => {
-    fetch("https://kormocharidb-production.up.railway.app/subcategories")
+    fetch("https://kormocharidb-production.up.railway.app/secondsubcategories")
       .then((res) => res.json())
-      .then((data) => setsubCategories(data));
+      .then((data) => setsecond_sub_categories(data));
   }, [control]);
 
    const handleDelete = (id) => {
     alert("are you sure?");
-    fetch(`https://kormocharidb-production.up.railway.app/deletesubcategories/${id}`, {
+    fetch(`https://kormocharidb-production.up.railway.app/deletesecondsubcategories/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -27,7 +27,7 @@ const ManageSubCategories = () => {
     <>
       <div className="container mx-auto p-4">
         <h1 className="text-3xl text-primary font-bold mb-6">
-          Manage <span className="text-secondary">Sub Categories</span>
+          Manage Second <span className="text-secondary">Sub Categories</span>
         </h1>
         <div className="overflow-x-auto">
           <table className="table w-full">
@@ -42,14 +42,14 @@ const ManageSubCategories = () => {
               </tr>
             </thead>
             <tbody>
-              {subcategories.map((subcategory, index) => {
+              {second_sub_categories.map((secondsubcategory, index) => {
                 return (
                   <>
                     <tr>
                       <th>{index + 1}</th>
-                      <td>{subcategory.sub_category_title}</td>
+                      <td>{secondsubcategory.second_sub_category_title}</td>
                       <td>Quality Control Specialist</td>
-                      <td>{subcategory.category}</td>
+                      <td>{secondsubcategory.category}</td>
                       <td>
                         {/* The button to open modal */}
                         <label
@@ -110,7 +110,7 @@ const ManageSubCategories = () => {
                           </div>
                         </div>
                         <button
-                          onClick={() => handleDelete(subcategory?._id)}
+                          onClick={() => handleDelete(secondsubcategory?._id)}
                           className="btn btn-active btn-secondary ml-2"
                         >
                           Delete
@@ -129,5 +129,5 @@ const ManageSubCategories = () => {
   );
 };
 
-export default ManageSubCategories;
+export default ManageSecondSub;
 

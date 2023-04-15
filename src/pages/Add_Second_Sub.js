@@ -2,72 +2,68 @@ import { data } from "autoprefixer";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const AddSubCategories = () => {
-  const [categories, setCategories] = useState([]);
-  const [sub_categoryId, setsub_categoryId] = useState(0);
+const Add_Second_Sub = () => {
+  const [subcategories, setsubCategories] = useState([]);
+  const [second_sub_categoryId, setsecond_sub_categoryId] = useState(0);
   const [control, setControl] = useState(false);
   const {
     register,
     handleSubmit,
     resetField,
-
     rest,
     formState: { isDirty, isValid },
   } = useForm({
     mode: "onChange",
     defaultValues: {
-      category_id: 0,
-      sub_category_title: "",
+      //   second_sub_categoryId: 0,
+      second_sub_category_title: "",
     },
   });
-  console.log(categories);
+  //   console.log(categories);
   useEffect(() => {
-    fetch("https://kormocharidb-production.up.railway.app/subcategories")
+    fetch("https://kormocharidb-production.up.railway.app/secondsubcategories")
       .then((res) => res.json())
       .then((data) =>
         data.map((dt) => {
-          setsub_categoryId(dt.sub_category_id);
-          console.log(dt);
+          setsecond_sub_categoryId(dt.second_sub_category_Id);
+          console.log(dt.second_sub_category_Id);
         })
       );
   }, [control]);
 
+  console.log(second_sub_categoryId);
+
+
   useEffect(() => {
-    fetch("https://kormocharidb-production.up.railway.app/categories")
+    fetch("https://kormocharidb-production.up.railway.app/subcategories")
       .then((res) => res.json())
       .then((data) => {
-        setCategories(data);
+        setsubCategories(data);
       });
   }, []);
   const onSubmit = (data) => {
-    data.sub_category_id = sub_categoryId + 1;
-    setsub_categoryId(data.sub_categoryId);
-    fetch("https://kormocharidb-production.up.railway.app/subcategories", {
+    setsecond_sub_categoryId(data.second_sub_categoryId);
+    data.second_sub_category_Id = second_sub_categoryId + 1;
+    fetch("https://kormocharidb-production.up.railway.app/secondsubcategories", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
-      .then(
-        (result) => {
-          if (result.insertedId) {
-            alert("Submitted");
-            setControl(!control);
-              // resetField("category");
-              resetField("sub_category_title");
-          } else {
-            alert("Something wrong");
-          }
+      .then((result) => {
+        if (result.insertedId) {
+          alert("Submitted");
+          setControl(!control);
+          // resetField("");
+          resetField("second_sub_category_title");
+        } else {
+          alert("Something wrong");
         }
-        // console.log(result.insertedId),
+      });
 
-        //         if(result.insertedId){
-        // alert("SUbmitted")
-        //         }
-      );
     // setCategories(data);
     console.log(data);
-    console.log(categories);
+    // console.log(categories);
     // alert("Successfully added");
   };
 
@@ -75,7 +71,7 @@ const AddSubCategories = () => {
     <>
       <div onSubmit={handleSubmit(onSubmit)} className="container mx-auto p-4">
         <h1 className="text-3xl text-primary font-bold mb-6">
-          Add New <span className="text-secondary">Sub Categories</span>
+          Add Second <span className="text-secondary">Sub Categories</span>
         </h1>
         <form className="flex flex-col">
           {/* <select {...register("category")} {...rest}>
@@ -86,25 +82,25 @@ const AddSubCategories = () => {
             ))}
           </select> */}
           <select
-            {...register("category_id")}
+            {...register("sub_category_id")}
             className="select select-bordered mt-4 w-full"
           >
-            <option selected>Select Category</option>
-            {categories.map((category, index) => {
+            <option selected>Select Sub Category</option>
+            {subcategories.map((subcategory, index) => {
               return (
                 <>
-                  <option required value={category.category_id}>
-                    {category.title}
+                  <option required value={subcategory.sub_category_id}>
+                    {subcategory.sub_category_title}
                   </option>
                 </>
               );
             })}
           </select>
           <input
-            placeholder="Add Sub-Category"
+            placeholder="Add Second Sub-Category"
             defaultValue=""
             className="input input-bordered mt-4 w-full"
-            {...register("sub_category_title")}
+            {...register("second_sub_category_title")}
             required
           />
 
@@ -125,4 +121,4 @@ const AddSubCategories = () => {
   );
 };
 
-export default AddSubCategories;
+export default Add_Second_Sub;
