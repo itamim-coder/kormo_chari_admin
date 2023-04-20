@@ -36,8 +36,9 @@ const ManageSecondSub = () => {
               <tr>
                 <th></th>
                 <th>Title</th>
+                <th>Image</th>
                 <th>Description</th>
-                <th>Category</th>
+                {/* <th>Category</th> */}
                 <th>Action</th>
               </tr>
             </thead>
@@ -48,8 +49,15 @@ const ManageSecondSub = () => {
                     <tr>
                       <th>{index + 1}</th>
                       <td>{secondsubcategory.second_sub_category_title}</td>
+                      <td>
+                      <img
+                          className="h-8 lg:h-20 w-8 lg:w-auto rounded-md lg:rounded-xl"
+                          src={secondsubcategory.thumbnail}
+                          alt="category"
+                        />
+                      </td>
                       <td>Quality Control Specialist</td>
-                      <td>{secondsubcategory.category}</td>
+                      {/* <td>{secondsubcategory.category}</td> */}
                       <td>
                         {/* The button to open modal */}
                         <label

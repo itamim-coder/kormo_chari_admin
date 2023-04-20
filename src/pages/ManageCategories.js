@@ -12,9 +12,12 @@ const ManageCategories = () => {
 
   const handleDelete = (id) => {
     alert("are you sure?");
-    fetch(`https://kormocharidb-production.up.railway.app/deletecategory/${id}`, {
-      method: "DELETE",
-    })
+    fetch(
+      `https://kormocharidb-production.up.railway.app/deletecategory/${id}`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.deletedCount) {
@@ -36,6 +39,7 @@ const ManageCategories = () => {
               <tr>
                 <th></th>
                 <th>Title</th>
+                <th>Image</th>
                 <th>Description</th>
                 <th>Action</th>
               </tr>
@@ -47,6 +51,13 @@ const ManageCategories = () => {
                     <tr>
                       <th>{index + 1}</th>
                       <td>{category.title}</td>
+                      <td>
+                        <img
+                          className="h-8 lg:h-20 w-8 lg:w-auto rounded-md lg:rounded-xl"
+                          src={category.thumbnail}
+                          alt="category"
+                        />
+                      </td>
                       <td>Quality Control Specialist</td>
                       <td>
                         {/* The button to open modal */}

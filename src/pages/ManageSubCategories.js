@@ -36,8 +36,9 @@ const ManageSubCategories = () => {
               <tr>
                 <th></th>
                 <th>Title</th>
+                <th>Image</th>
                 <th>Description</th>
-                <th>Category</th>
+                {/* <th>Category</th> */}
                 <th>Action</th>
               </tr>
             </thead>
@@ -48,8 +49,15 @@ const ManageSubCategories = () => {
                     <tr>
                       <th>{index + 1}</th>
                       <td>{subcategory.sub_category_title}</td>
+                      <td>
+                        <img
+                          className="h-8 lg:h-20 w-8 lg:w-auto rounded-md lg:rounded-xl"
+                          src={subcategory.thumbnail}
+                          alt="category"
+                        />
+                      </td>
                       <td>Quality Control Specialist</td>
-                      <td>{subcategory.category}</td>
+                      {/* <td>{subcategory.category}</td> */}
                       <td>
                         {/* The button to open modal */}
                         <label

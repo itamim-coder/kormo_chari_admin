@@ -71,7 +71,7 @@ const AddFinalSubCategories = () => {
     <>
       <div onSubmit={handleSubmit(onSubmit)} className="container mx-auto p-4">
         <h1 className="text-3xl text-primary font-bold mb-6">
-          Add Second <span className="text-secondary">Sub Categories</span>
+          Add final <span className="text-secondary">Sub Categories</span>
         </h1>
         <form className="flex flex-col">
           {/* <select {...register("category")} {...rest}>

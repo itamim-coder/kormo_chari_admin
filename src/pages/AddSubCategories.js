@@ -1,8 +1,10 @@
 import { data } from "autoprefixer";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const AddSubCategories = () => {
+  const [thumbnail, setThumbnail] = useState({});
   const [categories, setCategories] = useState([]);
   const [sub_categoryId, setsub_categoryId] = useState(0);
   const [control, setControl] = useState(false);
@@ -18,9 +20,34 @@ const AddSubCategories = () => {
     defaultValues: {
       category_id: 0,
       sub_category_title: "",
+      thumbnail: "",
     },
   });
   console.log(categories);
+  const imageHostKey = "46e1122b071589a93cdc571daf353fc7";
+  const imageup = (e, data) => {
+    const imgFiles = e.target.files;
+
+    // let imgArr = [];
+
+    let imageData = new FormData();
+    imageData.set("key", imageHostKey);
+    imageData.append("image", imgFiles[0]);
+
+    axios
+      .post("https://api.imgbb.com/1/upload", imageData)
+      .then((res) => {
+        console.log(res.data.data.display_url);
+        setThumbnail(res.data.data.display_url); // set1st
+        // imgArr.push(res.data.data.display_url);
+        // console.log(imgArr);
+        // setImgData2(imgArr); // set2nd
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log(imageData);
+  };
   useEffect(() => {
     fetch("https://kormocharidb-production.up.railway.app/subcategories")
       .then((res) => res.json())
@@ -42,6 +69,7 @@ const AddSubCategories = () => {
   const onSubmit = (data) => {
     data.sub_category_id = sub_categoryId + 1;
     setsub_categoryId(data.sub_categoryId);
+    data.thumbnail = thumbnail;
     fetch("https://kormocharidb-production.up.railway.app/subcategories", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -54,6 +82,7 @@ const AddSubCategories = () => {
             alert("Submitted");
             setControl(!control);
               // resetField("category");
+              resetField("thumbnail");
               resetField("sub_category_title");
           } else {
             alert("Something wrong");
@@ -113,10 +142,13 @@ const AddSubCategories = () => {
             placeholder="Description"
             className="input input-bordered mt-4 w-full"
           /> */}
-          {/* <input
+          <input
+            onChange={(e) => imageup(e)}
+            multiple="multiple"
+            accept="image/jpeg, image/png, image/jpg"
             type="file"
             className="file-input file-input-bordered file-input-primary mt-4 w-full"
-          /> */}
+          />
           <input type="submit" className="btn btn-block btn-secondary mt-4" />
           {/* <button className="btn btn-block btn-secondary mt-4">Submit</button> */}
         </form>

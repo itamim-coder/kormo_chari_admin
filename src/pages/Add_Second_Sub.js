@@ -1,8 +1,10 @@
 import { data } from "autoprefixer";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const Add_Second_Sub = () => {
+  const [thumbnail, setThumbnail] = useState({});
   const [subcategories, setsubCategories] = useState([]);
   const [second_sub_categoryId, setsecond_sub_categoryId] = useState(0);
   const [control, setControl] = useState(false);
@@ -15,11 +17,37 @@ const Add_Second_Sub = () => {
   } = useForm({
     mode: "onChange",
     defaultValues: {
+      sub_category_id: [0],
       //   second_sub_categoryId: 0,
       second_sub_category_title: "",
+      thumbnail: "",
     },
   });
   //   console.log(categories);
+  const imageHostKey = "46e1122b071589a93cdc571daf353fc7";
+  const imageup = (e, data) => {
+    const imgFiles = e.target.files;
+
+    // let imgArr = [];
+
+    let imageData = new FormData();
+    imageData.set("key", imageHostKey);
+    imageData.append("image", imgFiles[0]);
+
+    axios
+      .post("https://api.imgbb.com/1/upload", imageData)
+      .then((res) => {
+        console.log(res.data.data.display_url);
+        setThumbnail(res.data.data.display_url); // set1st
+        // imgArr.push(res.data.data.display_url);
+        // console.log(imgArr);
+        // setImgData2(imgArr); // set2nd
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log(imageData);
+  };
   useEffect(() => {
     fetch("https://kormocharidb-production.up.railway.app/secondsubcategories")
       .then((res) => res.json())
@@ -33,6 +61,9 @@ const Add_Second_Sub = () => {
 
   console.log(second_sub_categoryId);
 
+  const getid=(id)=>{
+    console.log(id)
+  }
 
   useEffect(() => {
     fetch("https://kormocharidb-production.up.railway.app/subcategories")
@@ -41,31 +72,48 @@ const Add_Second_Sub = () => {
         setsubCategories(data);
       });
   }, []);
-  const onSubmit = (data) => {
-    setsecond_sub_categoryId(data.second_sub_categoryId);
-    data.second_sub_category_Id = second_sub_categoryId + 1;
-    fetch("https://kormocharidb-production.up.railway.app/secondsubcategories", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.insertedId) {
-          alert("Submitted");
-          setControl(!control);
-          // resetField("");
-          resetField("second_sub_category_title");
-        } else {
-          alert("Something wrong");
-        }
-      });
+  // const onSubmit = (data) => {
+  //   setsecond_sub_categoryId(data.second_sub_categoryId);
+  //   data.second_sub_category_Id = second_sub_categoryId + 1;
+  //   data.thumbnail = thumbnail;
+  //   fetch(
+  //     "https://kormocharidb-production.up.railway.app/secondsubcategories",
+  //     {
+  //       method: "POST",
+  //       headers: { "content-type": "application/json" },
+  //       body: JSON.stringify(data),
+  //     }
+  //   )
+  //     .then((res) => res.json())
+  //     .then((result) => {
+  //       if (result.insertedId) {
+  //         alert("Submitted");
+  //         setControl(!control);
+  //         // resetField("");
+  //         resetField("second_sub_category_title");
+  //       } else {
+  //         alert("Something wrong");
+  //       }
+  //     });
 
-    // setCategories(data);
-    console.log(data);
-    // console.log(categories);
-    // alert("Successfully added");
-  };
+  //   // setCategories(data);
+  //   console.log(data);
+  //   // console.log(categories);
+  //   // alert("Successfully added");
+  // };
+
+  const onSubmit = (data , e) => {
+       
+    console.log(data)
+    // fetch(`https://drone-shop.onrender.com/status/${sub_category_id}`, {
+    //     method: "PUT",
+    //     headers: { "content-type": "application/json" },
+    //     body: JSON.stringify(data),
+    //   })
+    //     .then((res) => res.json())
+    //     .then((result) => console.log(result));
+    //     e.preventDefault()
+    };
 
   return (
     <>
@@ -81,21 +129,26 @@ const Add_Second_Sub = () => {
               </option>
             ))}
           </select> */}
-          <select
+          {/* <select
             {...register("sub_category_id")}
+            // onChange={getid( this)}
             className="select select-bordered mt-4 w-full"
-          >
-            <option selected>Select Sub Category</option>
+          > */}
+            {/* <option selected>Select Sub Category</option> */}
             {subcategories.map((subcategory, index) => {
               return (
                 <>
-                  <option required value={subcategory.sub_category_id}>
+                  <button  onClick={()=>getid(subcategory?._id)} value={subcategory?._id}>
+
                     {subcategory.sub_category_title}
-                  </option>
+                  </button>
+                  {/* <option required value={subcategory.sub_category_id}>
+                    {subcategory.sub_category_title}
+                  </option> */}
                 </>
               );
             })}
-          </select>
+          {/* </select> */}
           <input
             placeholder="Add Second Sub-Category"
             defaultValue=""
@@ -109,10 +162,13 @@ const Add_Second_Sub = () => {
             placeholder="Description"
             className="input input-bordered mt-4 w-full"
           /> */}
-          {/* <input
+          <input
+            onChange={(e) => imageup(e)}
+            multiple="multiple"
+            accept="image/jpeg, image/png, image/jpg"
             type="file"
             className="file-input file-input-bordered file-input-primary mt-4 w-full"
-          /> */}
+          />
           <input type="submit" className="btn btn-block btn-secondary mt-4" />
           {/* <button className="btn btn-block btn-secondary mt-4">Submit</button> */}
         </form>
