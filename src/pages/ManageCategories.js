@@ -5,7 +5,7 @@ const ManageCategories = () => {
   const [control, setControl] = useState(false);
 
   useEffect(() => {
-    fetch("https://kormocharidb-production.up.railway.app/categories")
+    fetch("http://localhost:8000/categories")
       .then((res) => res.json())
       .then((data) => setCategories(data));
   }, [control]);
@@ -13,7 +13,7 @@ const ManageCategories = () => {
   const handleDelete = (id) => {
     alert("are you sure?");
     fetch(
-      `https://kormocharidb-production.up.railway.app/deletecategory/${id}`,
+      `http://localhost:8000/deletecategory/${id}`,
       {
         method: "DELETE",
       }

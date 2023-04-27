@@ -1,13 +1,14 @@
-import { data } from "autoprefixer";
+// import { data } from "autoprefixer";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const Add_Second_Sub = () => {
   const [thumbnail, setThumbnail] = useState({});
   const [subcategories, setsubCategories] = useState([]);
-  const [second_sub_categoryId, setsecond_sub_categoryId] = useState(0);
   const [control, setControl] = useState(false);
+  const [second_sub_categoryId, setsecond_sub_categoryId] = useState(0);
+  const [id, setid] = useState();
   const {
     register,
     handleSubmit,
@@ -17,7 +18,7 @@ const Add_Second_Sub = () => {
   } = useForm({
     mode: "onChange",
     defaultValues: {
-      sub_category_id: [0],
+      // sub_category_id: [0],
       //   second_sub_categoryId: 0,
       second_sub_category_title: "",
       thumbnail: "",
@@ -48,25 +49,53 @@ const Add_Second_Sub = () => {
       });
     console.log(imageData);
   };
+  // useEffect(() => {
+  //   fetch("http://localhost:8000/secondsubcategories")
+  //     .then((res) => res.json())
+  //     .then((data) =>
+  //       data.map((dt) => {
+  //         setsecond_sub_categoryId(dt.second_sub_category_Id);
+  //         console.log(dt.second_sub_category_Id);
+  //       })
+  //     );
+  // }, [control]);
   useEffect(() => {
-    fetch("https://kormocharidb-production.up.railway.app/secondsubcategories")
+    const maxarr = [];
+    fetch("http://localhost:8000/subcategories")
       .then((res) => res.json())
       .then((data) =>
+        // console.log("loaddata"),
+
         data.map((dt) => {
-          setsecond_sub_categoryId(dt.second_sub_category_Id);
-          console.log(dt.second_sub_category_Id);
+          let max = 0;
+
+          dt.second_sub.map((d) => {
+            // console.log(d.second_sub_category_Id)
+            if (max < d.second_sub_category_Id) {
+              max = d.second_sub_category_Id;
+            }
+          });
+          //   //
+          //   // console.log(dt.second_sub_category_Id);
+          // }
+
+          maxarr.push(max);
+          const maxx = Math.max(...maxarr);
+          console.log("maxx", maxx);
+          setsecond_sub_categoryId(maxx);
         })
       );
   }, [control]);
 
-  console.log(second_sub_categoryId);
+  console.log("updated", second_sub_categoryId);
 
-  const getid=(id)=>{
-    console.log(id)
-  }
+  const getid = (id) => {
+    console.log(id);
+    setid(id);
+  };
 
   useEffect(() => {
-    fetch("https://kormocharidb-production.up.railway.app/subcategories")
+    fetch("http://localhost:8000/subcategories")
       .then((res) => res.json())
       .then((data) => {
         setsubCategories(data);
@@ -102,26 +131,33 @@ const Add_Second_Sub = () => {
   //   // alert("Successfully added");
   // };
 
-  const onSubmit = (data , e) => {
-       
-    console.log(data)
-    // fetch(`https://drone-shop.onrender.com/status/${sub_category_id}`, {
-    //     method: "PUT",
-    //     headers: { "content-type": "application/json" },
-    //     body: JSON.stringify(data),
-    //   })
-    //     .then((res) => res.json())
-    //     .then((result) => console.log(result));
-    //     e.preventDefault()
-    };
+  const onSubmit = (data, e) => {
+    resetField("second_sub_category_title");
+    data.second_sub_category_Id = second_sub_categoryId + 1;
+    setsecond_sub_categoryId(data.second_sub_category_Id);
+    data.thumbnail = thumbnail;
+    console.log(data);
+    fetch(`http://localhost:8000/subcategories/${id}`, {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        setControl(!control);
+      });
+    // e.preventDefault();
+  };
 
   return (
     <>
-      <div onSubmit={handleSubmit(onSubmit)} className="container mx-auto p-4">
+      <div className="container mx-auto p-4">
         <h1 className="text-3xl text-primary font-bold mb-6">
           Add Second <span className="text-secondary">Sub Categories</span>
         </h1>
-        <form className="flex flex-col">
+
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
           {/* <select {...register("category")} {...rest}>
             {categories.map((value) => (
               <option key={value} value={value}>
@@ -134,20 +170,24 @@ const Add_Second_Sub = () => {
             // onChange={getid( this)}
             className="select select-bordered mt-4 w-full"
           > */}
-            {/* <option selected>Select Sub Category</option> */}
-            {subcategories.map((subcategory, index) => {
-              return (
-                <>
-                  <button  onClick={()=>getid(subcategory?._id)} value={subcategory?._id}>
+          {/* <option selected>Select Sub Category</option> */}
 
-                    {subcategory.sub_category_title}
-                  </button>
-                  {/* <option required value={subcategory.sub_category_id}>
+          {subcategories.map((subcategory, index) => {
+            return (
+              <>
+                <button
+                  onClick={() => getid(subcategory?._id)}
+                  value={subcategory?._id}
+                >
+                  {subcategory.sub_category_title}
+                </button>
+                {/* <option required value={subcategory.sub_category_id}>
                     {subcategory.sub_category_title}
                   </option> */}
-                </>
-              );
-            })}
+              </>
+            );
+          })}
+
           {/* </select> */}
           <input
             placeholder="Add Second Sub-Category"

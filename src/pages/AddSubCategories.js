@@ -49,7 +49,7 @@ const AddSubCategories = () => {
     console.log(imageData);
   };
   useEffect(() => {
-    fetch("https://kormocharidb-production.up.railway.app/subcategories")
+    fetch("http://localhost:8000/subcategories")
       .then((res) => res.json())
       .then((data) =>
         data.map((dt) => {
@@ -60,7 +60,7 @@ const AddSubCategories = () => {
   }, [control]);
 
   useEffect(() => {
-    fetch("https://kormocharidb-production.up.railway.app/categories")
+    fetch("http://localhost:8000/categories")
       .then((res) => res.json())
       .then((data) => {
         setCategories(data);
@@ -70,7 +70,7 @@ const AddSubCategories = () => {
     data.sub_category_id = sub_categoryId + 1;
     setsub_categoryId(data.sub_categoryId);
     data.thumbnail = thumbnail;
-    fetch("https://kormocharidb-production.up.railway.app/subcategories", {
+    fetch("http://localhost:8000/subcategories", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(data),
@@ -81,7 +81,7 @@ const AddSubCategories = () => {
           if (result.insertedId) {
             alert("Submitted");
             setControl(!control);
-              // resetField("category");
+              // resetField("category_id");
               resetField("thumbnail");
               resetField("sub_category_title");
           } else {
@@ -102,11 +102,11 @@ const AddSubCategories = () => {
 
   return (
     <>
-      <div onSubmit={handleSubmit(onSubmit)} className="container mx-auto p-4">
+      <div  className="container mx-auto p-4">
         <h1 className="text-3xl text-primary font-bold mb-6">
           Add New <span className="text-secondary">Sub Categories</span>
         </h1>
-        <form className="flex flex-col">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
           {/* <select {...register("category")} {...rest}>
             {categories.map((value) => (
               <option key={value} value={value}>

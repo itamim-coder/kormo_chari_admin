@@ -5,14 +5,14 @@ const ManageSubCategories = () => {
   const [control, setControl] = useState(false);
 
   useEffect(() => {
-    fetch("https://kormocharidb-production.up.railway.app/subcategories")
+    fetch("http://localhost:8000/subcategories")
       .then((res) => res.json())
       .then((data) => setsubCategories(data));
   }, [control]);
 
    const handleDelete = (id) => {
     alert("are you sure?");
-    fetch(`https://kormocharidb-production.up.railway.app/deletesubcategories/${id}`, {
+    fetch(`http://localhost:8000/deletesubcategories/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

@@ -5,14 +5,14 @@ const ManageFinalSubCategories = () => {
   const [control, setControl] = useState(false);
 
   useEffect(() => {
-    fetch("https://kormocharidb-production.up.railway.app/finalsubcategories")
+    fetch("http://localhost:8000/finalsubcategories")
       .then((res) => res.json())
       .then((data) => setfinalsubCategories(data));
   }, [control]);
 
    const handleDelete = (id) => {
     alert("are you sure?");
-    fetch(`https://kormocharidb-production.up.railway.app/deletefinalsubcategories/${id}`, {
+    fetch(`http://localhost:8000/deletefinalsubcategories/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 
 const AddFinalSubCategories = () => {
   const [secondsubcategories, setsecondsubCategories] = useState([]);
-//   const [second_sub_categoryId, setsecond_sub_categoryId] = useState(0);
-//   const [control, setControl] = useState(false);
+  //   const [second_sub_categoryId, setsecond_sub_categoryId] = useState(0);
+  //   const [control, setControl] = useState(false);
   const {
     register,
     handleSubmit,
@@ -20,22 +20,21 @@ const AddFinalSubCategories = () => {
     },
   });
 
-//   useEffect(() => {
-//     fetch("http://localhost:8000/finalsubcategories")
-//       .then((res) => res.json())
-//       .then((data) =>
-//         data.map((dt) => {
-//         //   setsecond_sub_categoryId(dt.second_sub_category_Id);
-//           console.log(dt.second_sub_category_Id);
-//         })
-//       );
-//   }, [control]);
+  //   useEffect(() => {
+  //     fetch("http://localhost:8000/finalsubcategories")
+  //       .then((res) => res.json())
+  //       .then((data) =>
+  //         data.map((dt) => {
+  //         //   setsecond_sub_categoryId(dt.second_sub_category_Id);
+  //           console.log(dt.second_sub_category_Id);
+  //         })
+  //       );
+  //   }, [control]);
 
-//   console.log(second_sub_categoryId);
-  
+  //   console.log(second_sub_categoryId);
 
   useEffect(() => {
-    fetch("https://kormocharidb-production.up.railway.app/secondsubcategories")
+    fetch("http://localhost:8000/subcategories")
       .then((res) => res.json())
       .then((data) => {
         setsecondsubCategories(data);
@@ -44,16 +43,19 @@ const AddFinalSubCategories = () => {
   const onSubmit = (data) => {
     // setsecond_sub_categoryId(data.second_sub_categoryId);
     // data.second_sub_category_Id = second_sub_categoryId + 1;
-    fetch("https://kormocharidb-production.up.railway.app/addfinalsubcategories", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(data),
-    })
+    fetch(
+      "http://localhost:8000/addfinalsubcategories",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(data),
+      }
+    )
       .then((res) => res.json())
       .then((result) => {
         if (result.insertedId) {
           alert("Submitted");
-        //   setControl(!control);
+          //   setControl(!control);
           // resetField("");
           resetField("final_sub_category_title");
         } else {
@@ -87,17 +89,29 @@ const AddFinalSubCategories = () => {
           >
             <option selected>Select Second Sub Category</option>
             {secondsubcategories.map((subcategory, index) => {
+              // console.log(subcategory)
               return (
                 <>
-                  <option required value={subcategory.second_sub_category_Id}>
-                    {subcategory.second_sub_category_title}
-                  </option>
+                  {subcategory.second_sub?.map((sdata) => {
+                    console.log(sdata)
+                    return(
+
+                      <>
+                      <option
+                        required
+                        value={sdata.second_sub_category_Id}
+                        >
+                        {sdata.second_sub_category_title}
+                      </option>
+                    </>
+                        )
+                  })}
                 </>
               );
             })}
           </select>
           <input
-            placeholder="Add Second Sub-Category"
+            placeholder="Add Final Sub-Category"
             defaultValue=""
             className="input input-bordered mt-4 w-full"
             {...register("final_sub_category_title")}
