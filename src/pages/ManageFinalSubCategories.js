@@ -5,14 +5,14 @@ const ManageFinalSubCategories = () => {
   const [control, setControl] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:8000/finalsubcategories")
+    fetch("https://kormchari-api.onrender.com/finalsubcategories")
       .then((res) => res.json())
       .then((data) => setfinalsubCategories(data));
   }, [control]);
 
    const handleDelete = (id) => {
     alert("are you sure?");
-    fetch(`http://localhost:8000/deletefinalsubcategories/${id}`, {
+    fetch(`https://kormchari-api.onrender.com/deletefinalsubcategories/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

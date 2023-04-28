@@ -5,7 +5,7 @@ const ManageCategories = () => {
   const [control, setControl] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:8000/categories")
+    fetch("https://kormchari-api.onrender.com/categories")
       .then((res) => res.json())
       .then((data) => setCategories(data));
   }, [control]);
@@ -13,7 +13,7 @@ const ManageCategories = () => {
   const handleDelete = (id) => {
     alert("are you sure?");
     fetch(
-      `http://localhost:8000/deletecategory/${id}`,
+      `https://kormchari-api.onrender.com/deletecategory/${id}`,
       {
         method: "DELETE",
       }

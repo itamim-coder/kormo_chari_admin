@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 const AddCategories = () => {
   const [thumbnail, setThumbnail] = useState({});
-  const [img, setImg] = useState({});
+  const [imgData, setImgdata] = useState({});
   // const [id,setid]
   const [categoryId, setcategoryId] = useState(0);
   const {
@@ -34,7 +34,8 @@ const AddCategories = () => {
     axios
       .post("https://api.imgbb.com/1/upload", imageData)
       .then((res) => {
-        console.log(res.data.data.display_url);
+        // console.log(res.data.data);
+        setImgdata(res.data.data);
         setThumbnail(res.data.data.display_url); // set1st
         // imgArr.push(res.data.data.display_url);
         // console.log(imgArr);
@@ -46,7 +47,7 @@ const AddCategories = () => {
     console.log(imageData);
   };
   useEffect(() => {
-    fetch("https://kormocharidb-production.up.railway.app/categories")
+    fetch("https://kormchari-api.onrender.com/categories")
       .then((res) => res.json())
       .then((data) => console.log(data.map((dt)=>setcategoryId(dt.category_id))));
   }, []);
@@ -56,7 +57,7 @@ const AddCategories = () => {
     data.category_id = categoryId + 1;
     setcategoryId(data.category_id);
     data.thumbnail = thumbnail;
-    fetch("https://kormocharidb-production.up.railway.app/categories", {
+    fetch("https://kormchari-api.onrender.com/categories", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(data),
@@ -74,16 +75,12 @@ const AddCategories = () => {
             }
           }
         }
-        // console.log(result),
+     
       );
     console.log(data);
-    // for (key in formData){
 
-    // }
-    // console.log(e.target.files);
-
-    // alert("Successfully added");
   };
+  console.log(imgData)
   return (
     <>
       <div className="container mx-auto p-4" onSubmit={handleSubmit(onSubmit)}>
@@ -109,8 +106,13 @@ const AddCategories = () => {
             type="file"
             className="file-input file-input-bordered file-input-primary mt-4 w-full"
           />
-          <input type="submit" className="btn btn-block btn-secondary mt-4" />
-          {/* <input type="submit" className="btn btn-block btn-secondary mt-4">Submit</input> */}
+          {
+           
+            imgData.id ?  <input type="submit"  className=" btn btn-block btn-secondary mt-4" /> :
+            <input type="submit" disabled className=" btn btn-block btn-secondary mt-4" />
+          }
+      
+       
         </form>
       </div>
     </>

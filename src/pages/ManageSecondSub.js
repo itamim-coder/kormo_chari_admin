@@ -5,7 +5,7 @@ const ManageSecondSub = () => {
   const [control, setControl] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:8000/subcategories")
+    fetch("https://kormchari-api.onrender.com/subcategories")
       .then((res) => res.json())
       .then((data) => setsecond_sub_categories(data));
   }, [control]);
@@ -13,7 +13,7 @@ const ManageSecondSub = () => {
   const handleDelete = (id) => {
     alert("are you sure?");
     fetch(
-      `https://kormocharidb-production.up.railway.app/deletesecondsubcategories/${id}`,
+      `https://kormchari-api.onrender.com/deletesecondsubcategories/${id}`,
       {
         method: "DELETE",
       }
@@ -37,7 +37,7 @@ const ManageSecondSub = () => {
             {/* head */}
             <thead>
               <tr>
-                <th></th>
+                {/* <th></th> */}
                 <th>Title</th>
                 <th>Image</th>
                 <th>Description</th>
@@ -71,7 +71,7 @@ const ManageSecondSub = () => {
                           {/* <td>{secondsubcategory.category}</td> */}
                           <td>
                             {/* The button to open modal */}
-                            <label
+                            <label aria-disabled
                               htmlFor="my-modal"
                               className="btn btn-outline btn-primary"
                             >
@@ -114,7 +114,7 @@ const ManageSecondSub = () => {
                                     type="file"
                                     className="file-input file-input-bordered file-input-primary mt-4 w-full"
                                   />
-                                  <button className="btn btn-block btn-secondary mt-4">
+                                  <button disabled className="btn btn-block btn-secondary mt-4">
                                     Submit
                                   </button>
                                 </form>
@@ -129,6 +129,7 @@ const ManageSecondSub = () => {
                               </div>
                             </div>
                             <button
+                            disabled
                               // onClick={() => handleDelete(secondsubcategory?._id)}
                               className="btn btn-active btn-secondary ml-2"
                             >

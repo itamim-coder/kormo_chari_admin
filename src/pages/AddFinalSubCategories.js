@@ -34,7 +34,7 @@ const AddFinalSubCategories = () => {
   //   console.log(second_sub_categoryId);
 
   useEffect(() => {
-    fetch("http://localhost:8000/subcategories")
+    fetch("https://kormchari-api.onrender.com/subcategories")
       .then((res) => res.json())
       .then((data) => {
         setsecondsubCategories(data);
@@ -44,7 +44,7 @@ const AddFinalSubCategories = () => {
     // setsecond_sub_categoryId(data.second_sub_categoryId);
     // data.second_sub_category_Id = second_sub_categoryId + 1;
     fetch(
-      "http://localhost:8000/addfinalsubcategories",
+      "https://kormchari-api.onrender.com/addfinalsubcategories",
       {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -87,7 +87,7 @@ const AddFinalSubCategories = () => {
             {...register("second_sub_category_id")}
             className="select select-bordered mt-4 w-full"
           >
-            <option selected>Select Second Sub Category</option>
+            <option disabled selected>Select Second Sub Category</option>
             {secondsubcategories.map((subcategory, index) => {
               // console.log(subcategory)
               return (

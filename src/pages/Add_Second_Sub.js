@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 
 const Add_Second_Sub = () => {
   const [thumbnail, setThumbnail] = useState({});
+  const [imgData, setImgdata] = useState({});
   const [subcategories, setsubCategories] = useState([]);
   const [control, setControl] = useState(false);
   const [second_sub_categoryId, setsecond_sub_categoryId] = useState(0);
@@ -39,6 +40,7 @@ const Add_Second_Sub = () => {
       .post("https://api.imgbb.com/1/upload", imageData)
       .then((res) => {
         console.log(res.data.data.display_url);
+        setImgdata(res.data.data);
         setThumbnail(res.data.data.display_url); // set1st
         // imgArr.push(res.data.data.display_url);
         // console.log(imgArr);
@@ -61,7 +63,7 @@ const Add_Second_Sub = () => {
   // }, [control]);
   useEffect(() => {
     const maxarr = [];
-    fetch("http://localhost:8000/subcategories")
+    fetch("https://kormchari-api.onrender.com/subcategories")
       .then((res) => res.json())
       .then((data) =>
         // console.log("loaddata"),
@@ -70,7 +72,8 @@ const Add_Second_Sub = () => {
           let max = 0;
 
           dt.second_sub.map((d) => {
-            // console.log(d.second_sub_category_Id)
+            console.log(d)
+            console.log(d.second_sub_category_Id)
             if (max < d.second_sub_category_Id) {
               max = d.second_sub_category_Id;
             }
@@ -83,6 +86,7 @@ const Add_Second_Sub = () => {
           const maxx = Math.max(...maxarr);
           console.log("maxx", maxx);
           setsecond_sub_categoryId(maxx);
+       
         })
       );
   }, [control]);
@@ -91,63 +95,42 @@ const Add_Second_Sub = () => {
 
   const getid = (id) => {
     console.log(id);
+
     setid(id);
   };
-
+console.log(imgData)
   useEffect(() => {
-    fetch("http://localhost:8000/subcategories")
+    fetch("https://kormchari-api.onrender.com/subcategories")
       .then((res) => res.json())
       .then((data) => {
         setsubCategories(data);
       });
   }, []);
-  // const onSubmit = (data) => {
-  //   setsecond_sub_categoryId(data.second_sub_categoryId);
-  //   data.second_sub_category_Id = second_sub_categoryId + 1;
-  //   data.thumbnail = thumbnail;
-  //   fetch(
-  //     "https://kormocharidb-production.up.railway.app/secondsubcategories",
-  //     {
-  //       method: "POST",
-  //       headers: { "content-type": "application/json" },
-  //       body: JSON.stringify(data),
-  //     }
-  //   )
-  //     .then((res) => res.json())
-  //     .then((result) => {
-  //       if (result.insertedId) {
-  //         alert("Submitted");
-  //         setControl(!control);
-  //         // resetField("");
-  //         resetField("second_sub_category_title");
-  //       } else {
-  //         alert("Something wrong");
-  //       }
-  //     });
 
-  //   // setCategories(data);
-  //   console.log(data);
-  //   // console.log(categories);
-  //   // alert("Successfully added");
-  // };
 
   const onSubmit = (data, e) => {
     resetField("second_sub_category_title");
     data.second_sub_category_Id = second_sub_categoryId + 1;
     setsecond_sub_categoryId(data.second_sub_category_Id);
     data.thumbnail = thumbnail;
-    console.log(data);
-    fetch(`http://localhost:8000/subcategories/${id}`, {
+    // console.log(data);
+    fetch(`https://kormchari-api.onrender.com/subcategories/${id}`, {
       method: "PUT",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(data),
     })
-      .then((res) => res.json())
-      .then((result) => {
+      .then((res) => console.log(res))
+      .then((result) => {{
         console.log(result);
-        setControl(!control);
-      });
+        alert("Submitted");
+        // setImgdata();
+      }
+    });
     // e.preventDefault();
+    setImgdata({})
+    setThumbnail({})
+    setControl(!control);
+
   };
 
   return (
@@ -158,19 +141,7 @@ const Add_Second_Sub = () => {
         </h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
-          {/* <select {...register("category")} {...rest}>
-            {categories.map((value) => (
-              <option key={value} value={value}>
-                {value}
-              </option>
-            ))}
-          </select> */}
-          {/* <select
-            {...register("sub_category_id")}
-            // onChange={getid( this)}
-            className="select select-bordered mt-4 w-full"
-          > */}
-          {/* <option selected>Select Sub Category</option> */}
+
 
           {subcategories.map((subcategory, index) => {
             return (
@@ -181,9 +152,7 @@ const Add_Second_Sub = () => {
                 >
                   {subcategory.sub_category_title}
                 </button>
-                {/* <option required value={subcategory.sub_category_id}>
-                    {subcategory.sub_category_title}
-                  </option> */}
+
               </>
             );
           })}
@@ -209,8 +178,18 @@ const Add_Second_Sub = () => {
             type="file"
             className="file-input file-input-bordered file-input-primary mt-4 w-full"
           />
-          <input type="submit" className="btn btn-block btn-secondary mt-4" />
-          {/* <button className="btn btn-block btn-secondary mt-4">Submit</button> */}
+          {imgData.id ? (
+            <input
+              type="submit"
+              className=" btn btn-block btn-secondary mt-4"
+            />
+          ) : (
+            <input
+              type="submit"
+              disabled
+              className=" btn btn-block btn-secondary mt-4"
+            />
+          )}
         </form>
       </div>
     </>

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 
 const AddSubCategories = () => {
   const [thumbnail, setThumbnail] = useState({});
+  const [imgData, setImgdata] = useState({});
   const [categories, setCategories] = useState([]);
   const [sub_categoryId, setsub_categoryId] = useState(0);
   const [control, setControl] = useState(false);
@@ -38,6 +39,7 @@ const AddSubCategories = () => {
       .post("https://api.imgbb.com/1/upload", imageData)
       .then((res) => {
         console.log(res.data.data.display_url);
+        setImgdata(res.data.data);
         setThumbnail(res.data.data.display_url); // set1st
         // imgArr.push(res.data.data.display_url);
         // console.log(imgArr);
@@ -49,7 +51,7 @@ const AddSubCategories = () => {
     console.log(imageData);
   };
   useEffect(() => {
-    fetch("http://localhost:8000/subcategories")
+    fetch("https://kormchari-api.onrender.com/subcategories")
       .then((res) => res.json())
       .then((data) =>
         data.map((dt) => {
@@ -60,7 +62,7 @@ const AddSubCategories = () => {
   }, [control]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/categories")
+    fetch("https://kormchari-api.onrender.com/categories")
       .then((res) => res.json())
       .then((data) => {
         setCategories(data);
@@ -70,7 +72,7 @@ const AddSubCategories = () => {
     data.sub_category_id = sub_categoryId + 1;
     setsub_categoryId(data.sub_categoryId);
     data.thumbnail = thumbnail;
-    fetch("http://localhost:8000/subcategories", {
+    fetch("https://kormchari-api.onrender.com/subcategories", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(data),
@@ -107,13 +109,7 @@ const AddSubCategories = () => {
           Add New <span className="text-secondary">Sub Categories</span>
         </h1>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
-          {/* <select {...register("category")} {...rest}>
-            {categories.map((value) => (
-              <option key={value} value={value}>
-                {value}
-              </option>
-            ))}
-          </select> */}
+ 
           <select
             {...register("category_id")}
             className="select select-bordered mt-4 w-full"
@@ -149,8 +145,13 @@ const AddSubCategories = () => {
             type="file"
             className="file-input file-input-bordered file-input-primary mt-4 w-full"
           />
-          <input type="submit" className="btn btn-block btn-secondary mt-4" />
-          {/* <button className="btn btn-block btn-secondary mt-4">Submit</button> */}
+
+            {
+           
+            imgData.id ?  <input type="submit"  className=" btn btn-block btn-secondary mt-4" /> :
+            <input type="submit" disabled className=" btn btn-block btn-secondary mt-4" />
+          }
+      
         </form>
       </div>
     </>
