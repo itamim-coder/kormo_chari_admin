@@ -86,7 +86,7 @@ const Add_Second_Sub = () => {
           const maxx = Math.max(...maxarr);
           console.log("maxx", maxx);
           setsecond_sub_categoryId(maxx);
-       
+
         })
       );
   }, [control]);
@@ -98,7 +98,7 @@ const Add_Second_Sub = () => {
 
     setid(id);
   };
-console.log(imgData)
+  console.log(imgData)
   useEffect(() => {
     fetch("https://kormchari-api.onrender.com/subcategories")
       .then((res) => res.json())
@@ -120,12 +120,13 @@ console.log(imgData)
       body: JSON.stringify(data),
     })
       .then((res) => console.log(res))
-      .then((result) => {{
-        console.log(result);
-        alert("Submitted");
-        // setImgdata();
-      }
-    });
+      .then((result) => {
+        {
+          console.log(result);
+          alert("Submitted");
+          // setImgdata();
+        }
+      });
     // e.preventDefault();
     setImgdata({})
     setThumbnail({})
@@ -141,21 +142,26 @@ console.log(imgData)
         </h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
+          <h1 className="text-xl text-primary font-bold mb-6">
+            Select <span className="text-secondary">Sub Category</span>
+          </h1>
 
+          <div className="grid grid-cols-2 gap-4">
+            {subcategories.map((subcategory, index) => {
+              return (
+                <>
+                  <button
+                    onClick={() => getid(subcategory?._id)}
+                    value={subcategory?._id}
+                    className="btn btn-primary"
+                  >
+                    {subcategory.sub_category_title}
+                  </button>
 
-          {subcategories.map((subcategory, index) => {
-            return (
-              <>
-                <button
-                  onClick={() => getid(subcategory?._id)}
-                  value={subcategory?._id}
-                >
-                  {subcategory.sub_category_title}
-                </button>
-
-              </>
-            );
-          })}
+                </>
+              );
+            })}
+          </div>
 
           {/* </select> */}
           <input
