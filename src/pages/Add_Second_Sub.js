@@ -51,45 +51,37 @@ const Add_Second_Sub = () => {
       });
     console.log(imageData);
   };
+
   // useEffect(() => {
-  //   fetch("http://localhost:8000/secondsubcategories")
+  //   const maxarr = [];
+  //   fetch("https://kormchari-api.onrender.com/subcategories")
   //     .then((res) => res.json())
   //     .then((data) =>
+  //       // console.log("loaddata"),
+
   //       data.map((dt) => {
-  //         setsecond_sub_categoryId(dt.second_sub_category_Id);
-  //         console.log(dt.second_sub_category_Id);
+  //         let max = 0;
+
+  //         dt.second_sub.map((d) => {
+  //           console.log(d)
+  //           console.log(d.second_sub_category_Id)
+  //           if (max < d.second_sub_category_Id) {
+  //             max = d.second_sub_category_Id;
+  //           }
+  //         });
+  //         //   //
+  //         //   // console.log(dt.second_sub_category_Id);
+  //         // }
+
+  //         maxarr.push(max);
+  //         console.log(maxarr)
+  //         const maxx = Math.max(...maxarr);
+  //         console.log("maxx", maxx);
+  //         setsecond_sub_categoryId(maxx);
+
   //       })
   //     );
-  // }, [control]);
-  useEffect(() => {
-    const maxarr = [];
-    fetch("https://kormchari-api.onrender.com/subcategories")
-      .then((res) => res.json())
-      .then((data) =>
-        // console.log("loaddata"),
-
-        data.map((dt) => {
-          let max = 0;
-
-          dt.second_sub.map((d) => {
-            console.log(d)
-            console.log(d.second_sub_category_Id)
-            if (max < d.second_sub_category_Id) {
-              max = d.second_sub_category_Id;
-            }
-          });
-          //   //
-          //   // console.log(dt.second_sub_category_Id);
-          // }
-
-          maxarr.push(max);
-          const maxx = Math.max(...maxarr);
-          console.log("maxx", maxx);
-          setsecond_sub_categoryId(maxx);
-
-        })
-      );
-  }, [control]);
+  // }, [id]);
 
   console.log("updated", second_sub_categoryId);
 
@@ -110,8 +102,8 @@ const Add_Second_Sub = () => {
 
   const onSubmit = (data, e) => {
     resetField("second_sub_category_title");
-    data.second_sub_category_Id = second_sub_categoryId + 1;
-    setsecond_sub_categoryId(data.second_sub_category_Id);
+    // data.second_sub_category_Id = second_sub_categoryId + 1;
+    // setsecond_sub_categoryId(data.second_sub_category_Id);
     data.thumbnail = thumbnail;
     // console.log(data);
     fetch(`https://kormchari-api.onrender.com/subcategories/${id}`, {

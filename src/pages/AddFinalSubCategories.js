@@ -84,7 +84,8 @@ const AddFinalSubCategories = () => {
             ))}
           </select> */}
           <select
-            {...register("second_sub_category_id")}
+            // {...register("second_sub_category_id")}
+            {...register("second_sub_category_title")}
             className="select select-bordered mt-4 w-full"
           >
             <option disabled selected>Select Second Sub Category</option>
@@ -93,13 +94,14 @@ const AddFinalSubCategories = () => {
               return (
                 <>
                   {subcategory.second_sub?.map((sdata) => {
-                    console.log(sdata)
+                    // console.log(sdata)
                     return(
 
                       <>
                       <option
                         required
-                        value={sdata.second_sub_category_Id}
+                        // value={sdata.second_sub_category_Id}
+                        value={sdata.second_sub_category_title}
                         >
                         {sdata.second_sub_category_title}
                       </option>

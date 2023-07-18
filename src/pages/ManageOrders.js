@@ -1,6 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useState } from 'react';
 
 const ManageOrders = () => {
+    const [order_data, setorder_data] = useState([]);
+    const [control, setControl] = useState(false);
+  
+    useEffect(() => {
+      fetch("http://localhost:8000/orders")
+        .then((res) => res.json())
+        .then((data) => setorder_data(data));
+    }, [control]);
+  
     return (
         <>
             <div className='container mx-auto p-4'>
@@ -18,12 +28,17 @@ const ManageOrders = () => {
                             </tr>
                         </thead>
                         <tbody>
+                        {order_data.map((order, index) => {
+                            console.log(order)
+                            return(
+                                <>
+                                
                             <tr>
-                                <th>1</th>
-                                <td>Cy Ganderton</td>
-                                <td>ganderton@gmail.com</td>
-                                <td>Delivery</td>
-                                <td>Road 1, Sector 10, Uttara, Dhaka</td>
+                                <th>{index+1}</th>
+                                <td>{order.name}</td>
+                                <td>{order.email}</td>
+                                <td>{order.orderDetails.final_sub_category_title}</td>
+                                <td>{order.address}</td>
                                 <td>
                                     <select className="select select-primary w-full max-w-xs">
                                         <option selected>Pending</option>
@@ -31,6 +46,9 @@ const ManageOrders = () => {
                                     </select>
                                 </td>
                             </tr>
+                                </>
+                            )
+                        })}
                         </tbody>
                     </table>
                 </div>
