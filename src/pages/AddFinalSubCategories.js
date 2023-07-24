@@ -1,9 +1,12 @@
 import { data } from "autoprefixer";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const AddFinalSubCategories = () => {
   const [secondsubcategories, setsecondsubCategories] = useState([]);
+  const [thumbnail, setThumbnail] = useState({});
+  const [imgData, setImgdata] = useState({});
   //   const [second_sub_categoryId, setsecond_sub_categoryId] = useState(0);
   //   const [control, setControl] = useState(false);
   const {
@@ -19,7 +22,31 @@ const AddFinalSubCategories = () => {
       final_sub_category_title: "",
     },
   });
+  const imageHostKey = "46e1122b071589a93cdc571daf353fc7";
+  const imageup = (e, data) => {
+    const imgFiles = e.target.files;
 
+    // let imgArr = [];
+
+    let imageData = new FormData();
+    imageData.set("key", imageHostKey);
+    imageData.append("image", imgFiles[0]);
+
+    axios
+      .post("https://api.imgbb.com/1/upload", imageData)
+      .then((res) => {
+        console.log(res.data.data.display_url);
+        setImgdata(res.data.data);
+        setThumbnail(res.data.data.display_url); // set1st
+        // imgArr.push(res.data.data.display_url);
+        // console.log(imgArr);
+        // setImgData2(imgArr); // set2nd
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log(imageData);
+  };
   //   useEffect(() => {
   //     fetch("http://localhost:8000/finalsubcategories")
   //       .then((res) => res.json())
@@ -43,14 +70,12 @@ const AddFinalSubCategories = () => {
   const onSubmit = (data) => {
     // setsecond_sub_categoryId(data.second_sub_categoryId);
     // data.second_sub_category_Id = second_sub_categoryId + 1;
-    fetch(
-      "https://kormchari-api.onrender.com/addfinalsubcategories",
-      {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(data),
-      }
-    )
+    data.thumbnail = thumbnail;
+    fetch("https://kormchari-api.onrender.com/addfinalsubcategories", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(data),
+    })
       .then((res) => res.json())
       .then((result) => {
         if (result.insertedId) {
@@ -88,25 +113,26 @@ const AddFinalSubCategories = () => {
             {...register("second_sub_category_title")}
             className="select select-bordered mt-4 w-full"
           >
-            <option disabled selected>Select Second Sub Category</option>
+            <option disabled selected>
+              Select Second Sub Category
+            </option>
             {secondsubcategories.map((subcategory, index) => {
               // console.log(subcategory)
               return (
                 <>
                   {subcategory.second_sub?.map((sdata) => {
                     // console.log(sdata)
-                    return(
-
+                    return (
                       <>
-                      <option
-                        required
-                        // value={sdata.second_sub_category_Id}
-                        value={sdata.second_sub_category_title}
+                        <option
+                          required
+                          // value={sdata.second_sub_category_Id}
+                          value={sdata.second_sub_category_title}
                         >
-                        {sdata.second_sub_category_title}
-                      </option>
-                    </>
-                        )
+                          {sdata.second_sub_category_title}
+                        </option>
+                      </>
+                    );
                   })}
                 </>
               );
@@ -120,16 +146,28 @@ const AddFinalSubCategories = () => {
             required
           />
 
-          {/* <input
-            type="text"
-            placeholder="Description"
-            className="input input-bordered mt-4 w-full"
-          /> */}
-          {/* <input
+          <input
+            onChange={(e) => imageup(e)}
+            multiple="multiple"
+            accept="image/jpeg, image/png, image/jpg"
             type="file"
             className="file-input file-input-bordered file-input-primary mt-4 w-full"
-          /> */}
-          <input type="submit" className="btn btn-block btn-secondary mt-4" />
+          />
+
+          {imgData.id ? (
+            <input
+              type="submit"
+              className=" btn btn-block btn-secondary mt-4"
+            />
+          ) : (
+            <input
+              type="submit"
+              disabled
+              className=" btn btn-block btn-secondary mt-4"
+            />
+          )}
+
+    
           {/* <button className="btn btn-block btn-secondary mt-4">Submit</button> */}
         </form>
       </div>
