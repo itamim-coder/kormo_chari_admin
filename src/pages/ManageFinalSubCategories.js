@@ -36,7 +36,7 @@ const ManageFinalSubCategories = () => {
               <tr>
                 <th></th>
                 <th>Title</th>
-                <th>Description</th>
+                <th>thumbnail</th>
                 <th>Category</th>
                 <th>Action</th>
               </tr>
@@ -48,8 +48,14 @@ const ManageFinalSubCategories = () => {
                     <tr>
                       <th>{index + 1}</th>
                       <td>{subcategory.final_sub_category_title}</td>
-                      <td>Quality Control Specialist</td>
-                      <td>{subcategory.category}</td>
+                      <td>
+                        <img
+                          className="h-8 lg:h-20 w-8 lg:w-16 rounded-md lg:rounded-xl"
+                          src={subcategory.thumbnail}
+                          alt="category"
+                        />
+                      </td>
+                      <td>{subcategory.second_sub_category_title}</td>
                       <td>
                         <button
                           onClick={() => handleDelete(subcategory?._id)}
@@ -72,4 +78,3 @@ const ManageFinalSubCategories = () => {
 };
 
 export default ManageFinalSubCategories;
-

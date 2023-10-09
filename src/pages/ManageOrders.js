@@ -6,7 +6,7 @@ const ManageOrders = () => {
     const [control, setControl] = useState(false);
   
     useEffect(() => {
-      fetch("http://localhost:8000/orders")
+      fetch("https://kormchari-api.onrender.com/orders")
         .then((res) => res.json())
         .then((data) => setorder_data(data));
     }, [control]);
@@ -24,6 +24,7 @@ const ManageOrders = () => {
                                 <th>Email</th>
                                 <th>Service</th>
                                 <th>Address</th>
+                                <th>Phone Number</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -39,6 +40,7 @@ const ManageOrders = () => {
                                 <td>{order.email}</td>
                                 <td>{order.orderDetails.final_sub_category_title}</td>
                                 <td>{order.address}</td>
+                                <td>{order.phoneNumber}</td>
                                 <td>
                                     <select className="select select-primary w-full max-w-xs">
                                         <option selected>Pending</option>
