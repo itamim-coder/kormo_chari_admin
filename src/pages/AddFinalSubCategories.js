@@ -19,7 +19,7 @@ const AddFinalSubCategories = () => {
     mode: "onChange",
     defaultValues: {
       //   second_sub_categoryId: 0,
-      final_sub_category_title: "",
+      subsecondcategoryTitle: "",
     },
   });
   const imageHostKey = "46e1122b071589a93cdc571daf353fc7";
@@ -61,25 +61,25 @@ const AddFinalSubCategories = () => {
   //   console.log(second_sub_categoryId);
 
   useEffect(() => {
-    fetch("https://kormchari-api.onrender.com/subcategories")
+    fetch("https://kormo-backend-v2.vercel.app/api/v1/subcategories")
       .then((res) => res.json())
       .then((data) => {
         setsecondsubCategories(data);
       });
   }, []);
   const onSubmit = (data) => {
-    // setsecond_sub_categoryId(data.second_sub_categoryId);
-    // data.second_sub_category_Id = second_sub_categoryId + 1;
     data.thumbnail = thumbnail;
-    fetch("https://kormchari-api.onrender.com/addfinalsubcategories", {
+    console.log(data);
+    fetch("https://kormo-backend-v2.vercel.app/api/v1/finalcategories", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
       .then((result) => {
-        if (result.insertedId) {
-          alert("Submitted");
+        console.log("result", result);
+        if (result.statusCode == 200) {
+          alert("Success");
           //   setControl(!control);
           // resetField("");
           resetField("final_sub_category_title");
@@ -93,7 +93,7 @@ const AddFinalSubCategories = () => {
     // console.log(categories);
     // alert("Successfully added");
   };
-
+  // console.log(secondsubcategories);
   return (
     <>
       <div onSubmit={handleSubmit(onSubmit)} className="container mx-auto p-4">
@@ -110,14 +110,14 @@ const AddFinalSubCategories = () => {
           </select> */}
           <select
             // {...register("second_sub_category_id")}
-            {...register("second_sub_category_title")}
+            {...register("subsecondcategoryTitle")}
             className="select select-bordered mt-4 w-full"
           >
             <option disabled selected>
               Select Second Sub Category
             </option>
-            {secondsubcategories.map((subcategory, index) => {
-              // console.log(subcategory)
+            {secondsubcategories?.data?.map((subcategory, index) => {
+              // console.log(subcategory);
               return (
                 <>
                   {subcategory.second_sub?.map((sdata) => {
@@ -142,7 +142,14 @@ const AddFinalSubCategories = () => {
             placeholder="Add Final Sub-Category"
             defaultValue=""
             className="input input-bordered mt-4 w-full"
-            {...register("final_sub_category_title")}
+            {...register("title")}
+            required
+          />
+          <input
+            placeholder="Description"
+            defaultValue=""
+            className="input input-bordered mt-4 p-5 w-full"
+            {...register("description")}
             required
           />
 
@@ -167,7 +174,6 @@ const AddFinalSubCategories = () => {
             />
           )}
 
-    
           {/* <button className="btn btn-block btn-secondary mt-4">Submit</button> */}
         </form>
       </div>

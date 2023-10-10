@@ -5,19 +5,19 @@ const ManageSubCategories = () => {
   const [control, setControl] = useState(false);
 
   useEffect(() => {
-    fetch("https://kormchari-api.onrender.com/subcategories")
+    fetch("https://kormo-backend-v2.vercel.app/api/v1/subcategories")
       .then((res) => res.json())
       .then((data) => setsubCategories(data));
   }, [control]);
-
+  console.log(subcategories);
   const handleDelete = (id) => {
     alert("are you sure?");
-    fetch(`https://kormchari-api.onrender.com/deletesubcategories/${id}`, {
+    fetch(`https://kormo-backend-v2.vercel.app/api/v1/subcategories/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.deletedCount) {
+        if (data.statusCode == 200) {
           setControl(!control);
         }
       });
@@ -43,12 +43,12 @@ const ManageSubCategories = () => {
               </tr>
             </thead>
             <tbody>
-              {subcategories.map((subcategory, index) => {
+              {subcategories?.data?.map((subcategory, index) => {
                 return (
                   <>
                     <tr>
                       <th>{index + 1}</th>
-                      <td>{subcategory.sub_category_title}</td>
+                      <td>{subcategory.title}</td>
                       <td>
                         <img
                           className="h-8 lg:h-20 w-8 lg:w-auto rounded-md lg:rounded-xl"
@@ -80,4 +80,3 @@ const ManageSubCategories = () => {
 };
 
 export default ManageSubCategories;
-

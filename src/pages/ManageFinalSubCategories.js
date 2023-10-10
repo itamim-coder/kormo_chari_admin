@@ -5,19 +5,20 @@ const ManageFinalSubCategories = () => {
   const [control, setControl] = useState(false);
 
   useEffect(() => {
-    fetch("https://kormchari-api.onrender.com/finalsubcategories")
+    fetch("https://kormo-backend-v2.vercel.app/api/v1/finalcategories")
       .then((res) => res.json())
       .then((data) => setfinalsubCategories(data));
   }, [control]);
 
   const handleDelete = (id) => {
     alert("are you sure?");
-    fetch(`https://kormchari-api.onrender.com/deletefinalsubcategories/${id}`, {
+    fetch(`https://kormo-backend-v2.vercel.app/api/v1/finalcategories/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.deletedCount) {
+        console.log(data);
+        if (data.statusCode == 200) {
           setControl(!control);
         }
       });
@@ -42,12 +43,12 @@ const ManageFinalSubCategories = () => {
               </tr>
             </thead>
             <tbody>
-              {finalsubcategories.map((subcategory, index) => {
+              {finalsubcategories?.data?.map((subcategory, index) => {
                 return (
                   <>
                     <tr>
                       <th>{index + 1}</th>
-                      <td>{subcategory.final_sub_category_title}</td>
+                      <td>{subcategory.title}</td>
                       <td>
                         <img
                           className="h-8 lg:h-20 w-8 lg:w-16 rounded-md lg:rounded-xl"

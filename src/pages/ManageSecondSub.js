@@ -5,7 +5,7 @@ const ManageSecondSub = () => {
   const [control, setControl] = useState(false);
 
   useEffect(() => {
-    fetch("https://kormchari-api.onrender.com/subcategories")
+    fetch("https://kormo-backend-v2.vercel.app/api/v1/subcategories")
       .then((res) => res.json())
       .then((data) => setsecond_sub_categories(data));
   }, [control]);
@@ -20,12 +20,14 @@ const ManageSecondSub = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        if (data.deletedCount) {
+        console.log(data)
+        if (data.statusCode == 200) {
           setControl(!control);
         }
       });
     console.log(id);
   };
+  console.log(second_sub_categories)
   return (
     <>
       <div className="container mx-auto p-4">
@@ -46,8 +48,8 @@ const ManageSecondSub = () => {
               </tr>
             </thead>
             <tbody>
-              {second_sub_categories.map((secondsubcategory) => {
-                // console.log(secondsubcategory.second_sub)
+              {second_sub_categories?.data?.map((secondsubcategory) => {
+                console.log(secondsubcategory)
                 return (
                   <>
                     {

@@ -92,7 +92,7 @@ const Add_Second_Sub = () => {
   };
   console.log(imgData)
   useEffect(() => {
-    fetch("https://kormchari-api.onrender.com/subcategories")
+    fetch("https://kormo-backend-v2.vercel.app/api/v1/subcategories")
       .then((res) => res.json())
       .then((data) => {
         setsubCategories(data);
@@ -106,7 +106,7 @@ const Add_Second_Sub = () => {
     // setsecond_sub_categoryId(data.second_sub_category_Id);
     data.thumbnail = thumbnail;
     // console.log(data);
-    fetch(`https://kormchari-api.onrender.com/subcategories/${id}`, {
+    fetch(`https://kormo-backend-v2.vercel.app/api/v1/subcategories/updatesecondsub/${id}`, {
       method: "PUT",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(data),
@@ -139,7 +139,7 @@ const Add_Second_Sub = () => {
           </h1>
 
           <div className="grid grid-cols-2 gap-4">
-            {subcategories.map((subcategory, index) => {
+            {subcategories?.data?.map((subcategory, index) => {
               return (
                 <>
                   <button
@@ -147,7 +147,7 @@ const Add_Second_Sub = () => {
                     value={subcategory?._id}
                     className="btn btn-primary"
                   >
-                    {subcategory.sub_category_title}
+                    {subcategory.title}
                   </button>
 
                 </>
